@@ -9,12 +9,14 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161617">
 
-  <!-- Open Graph 分享卡片 TODO: 部署后把 og:url 改为线上地址,并在 assets/images/ 放一张 og-image.png(建议 1200x630) -->
+  <!-- Open Graph 分享卡片 TODO: 部署后把 og:url 和 og:image 都改为线上完整地址
+       (og:image 必须是绝对 URL,社交爬虫不解析相对路径),
+       并在 assets/images/ 放一张 og-image.png(建议 1200x630) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="你的名字 - 个人主页">
   <meta property="og:description" content="开发者你的名字的个人主页:项目作品、技术文章和联系方式。">
   <meta property="og:url" content="https://username.github.io/">
-  <meta property="og:image" content="assets/images/og-image.png">
+  <meta property="og:image" content="https://username.github.io/assets/images/og-image.png">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -38,7 +40,7 @@
       <!-- TODO: 替换为你的名字 -->
       <a class="brand" href="#top">你的名字</a>
 
-      <nav class="site-nav" aria-label="主导航">
+      <nav class="site-nav" id="site-nav" aria-label="主导航">
         <a href="#about">关于</a>
         <a href="#skills">技能</a>
         <a href="#projects">项目</a>
@@ -57,7 +59,7 @@
           </svg>
         </button>
 
-        <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+        <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="site-nav">
           <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18"/>
           </svg>
@@ -214,6 +216,7 @@
           <div class="contact-email">
             <span class="email-text">your@email.com</span>
             <button class="copy-email" type="button" data-email="your@email.com">复制邮箱</button>
+            <span class="copy-status visually-hidden" role="status"></span>
           </div>
 
           <!-- TODO: 替换为你的真实社交链接,不用的删掉即可 -->

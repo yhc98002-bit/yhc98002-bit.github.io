@@ -6,6 +6,22 @@
   document.documentElement.classList.add('js');
 
   /* ===== 主题切换(浅色 ↔ 深色,localStorage 持久化) ===== */
+  var THEME_COLORS = { light: '#ffffff', dark: '#161617' };
+  var themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
+
+  /* 手动主题下,theme-color meta 只跟系统走会导致浏览器 UI(Safari 标签栏等)
+     与页面颜色脱节,这里把两条 meta 一并改成当前主题色 */
+  function syncThemeColor(theme) {
+    themeColorMetas.forEach(function (meta) {
+      meta.setAttribute('content', THEME_COLORS[theme]);
+    });
+  }
+
+  var initialTheme = document.documentElement.dataset.theme;
+  if (initialTheme === 'light' || initialTheme === 'dark') {
+    syncThemeColor(initialTheme);
+  }
+
   var themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) {
     var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -14,6 +30,7 @@
         (systemDark.matches ? 'dark' : 'light');
       var next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = next;
+      syncThemeColor(next);
       try {
         localStorage.setItem('theme', next);
       } catch (e) {
@@ -26,17 +43,31 @@
   var navToggle = document.querySelector('.nav-toggle');
   var siteNav = document.querySelector('.site-nav');
   if (navToggle && siteNav) {
+    var closeNav = function (returnFocus) {
+      document.body.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', '打开导航菜单');
+      if (returnFocus) navToggle.focus();
+    };
     navToggle.addEventListener('click', function () {
       var open = document.body.classList.toggle('nav-open');
       navToggle.setAttribute('aria-expanded', String(open));
       navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+      /* 菜单面板在 DOM 中位于按钮之前,展开后把焦点移进菜单,
+         否则键盘用户按 Tab 会直接跳进正文 */
+      if (open) {
+        var firstLink = siteNav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
     });
     /* 点击任意导航链接后自动收起菜单 */
     siteNav.addEventListener('click', function (e) {
-      if (e.target.closest('a')) {
-        document.body.classList.remove('nav-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.setAttribute('aria-label', '打开导航菜单');
+      if (e.target.closest('a')) closeNav(false);
+    });
+    /* Escape 关闭菜单,焦点还给按钮 */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+        closeNav(true);
       }
     });
   }
@@ -88,9 +119,10 @@
     });
   }
 
-  /* ===== 复制邮箱(Clipboard API 仅在 https/localhost 可用,file:// 下回退为 mailto) ===== */
+  /* ===== 复制邮箱(优先 Clipboard API;API 不可用或写入被拒时回退为打开邮件客户端) ===== */
   var copyBtn = document.querySelector('.copy-email');
   if (copyBtn) {
+    var copyStatus = document.querySelector('.copy-status');
     var defaultLabel = copyBtn.textContent;
     var resetTimer = null;
     copyBtn.addEventListener('click', function () {
@@ -99,10 +131,13 @@
         navigator.clipboard.writeText(email).then(function () {
           copyBtn.textContent = '已复制 ✓';
           copyBtn.classList.add('copied');
+          /* role="status" 的 live region,让屏幕阅读器播报复制结果 */
+          if (copyStatus) copyStatus.textContent = '邮箱已复制到剪贴板';
           clearTimeout(resetTimer);
           resetTimer = setTimeout(function () {
             copyBtn.textContent = defaultLabel;
             copyBtn.classList.remove('copied');
+            if (copyStatus) copyStatus.textContent = '';
           }, 2000);
         }).catch(function () {
           location.href = 'mailto:' + email;
