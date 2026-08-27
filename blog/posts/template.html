@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     文章模板:写新文章时,复制本文件到同目录(blog/posts/),
+     重命名为 YYYY-MM-DD-英文短名.html,然后修改:
+     1. <title> 和 meta description
+     2. <h1> 标题和 <time> 日期(datetime 属性和显示文字两处)
+     3. <div class="post-body"> 里的正文
+     4. 最后去 blog/index.html 的列表顶部加一张卡片
+     注意:必须放在 blog/posts/ 目录,否则页内的相对路径会失效。
+     ============================================================ -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- TODO: 替换为文章标题和你的名字 -->
+  <title>文章标题 - 你的名字</title>
+  <meta name="description" content="一句话文章摘要。">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161617">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+
+  <!-- 主题恢复:在 CSS 加载前设置,防止深色用户刷新时闪白 -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container">
+      <!-- TODO: 替换为你的名字 -->
+      <a class="brand" href="../../index.html">你的名字</a>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="../../index.html#about">关于</a>
+        <a href="../../index.html#skills">技能</a>
+        <a href="../../index.html#projects">项目</a>
+        <a class="active" href="../index.html">博客</a>
+        <a href="../../index.html#contact">联系</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="切换深色/浅色主题">
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="post">
+    <div class="container narrow">
+      <a class="back-link" href="../index.html">← 返回博客列表</a>
+
+      <article>
+        <header class="post-header">
+          <!-- TODO: 替换为文章标题和日期 -->
+          <h1>文章标题</h1>
+          <p class="post-meta"><time datetime="2026-01-01">2026 年 1 月 1 日</time></p>
+        </header>
+
+        <div class="post-body">
+          <!-- TODO: 在这里写正文,可用的排版元素见 2026-08-20-typography.html -->
+          <p>正文第一段。</p>
+          <p>正文第二段。</p>
+        </div>
+      </article>
+
+      <div class="post-footer">
+        <a class="back-link" href="../index.html">← 返回博客列表</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- TODO: 替换为你的名字 -->
+      <p>© 2026 你的名字</p>
+      <p>用纯 HTML / CSS / JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <script src="../../js/main.js" defer></script>
+</body>
+</html>

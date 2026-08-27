@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- TODO: 想换图标时,改下面的填充色或把「你」换成你名字的首字 -->
+  <rect width="100" height="100" rx="22" fill="#0066cc"/>
+  <text x="50" y="54" text-anchor="middle" dominant-baseline="central" font-size="52" font-weight="600" fill="#ffffff" font-family="-apple-system, PingFang SC, Microsoft YaHei, sans-serif">你</text>
+</svg>

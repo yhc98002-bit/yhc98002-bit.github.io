@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- TODO: 替换为你的名字 -->
+  <title>示例文章:中文排版样式演示 - 你的名字</title>
+  <meta name="description" content="演示博客支持的全部排版元素:标题、列表、引用、代码块等。">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161617">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+
+  <!-- 主题恢复:在 CSS 加载前设置,防止深色用户刷新时闪白 -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container">
+      <!-- TODO: 替换为你的名字 -->
+      <a class="brand" href="../../index.html">你的名字</a>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="../../index.html#about">关于</a>
+        <a href="../../index.html#skills">技能</a>
+        <a href="../../index.html#projects">项目</a>
+        <a class="active" href="../index.html">博客</a>
+        <a href="../../index.html#contact">联系</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="切换深色/浅色主题">
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="post">
+    <div class="container narrow">
+      <a class="back-link" href="../index.html">← 返回博客列表</a>
+
+      <article>
+        <header class="post-header">
+          <h1>示例文章:中文排版样式演示</h1>
+          <p class="post-meta"><time datetime="2026-08-20">2026 年 8 月 20 日</time></p>
+        </header>
+
+        <div class="post-body">
+          <p>这篇文章演示了博客支持的全部排版元素。写新文章时,可以复制 <code>template.html</code> 后对照本文选用需要的元素。正文段落就像这样:字号 17px,行高 1.7,适合中文长文阅读。</p>
+
+          <h2>二级标题:章节的划分</h2>
+          <p>用 <code>&lt;h2&gt;</code> 划分文章的主要章节。文章页的一级标题只有开头一个,正文从二级标题开始用起。</p>
+
+          <h3>三级标题:小节</h3>
+          <p>更细的层次用 <code>&lt;h3&gt;</code>。一般到三级就够了,层次太深读者会迷路。</p>
+
+          <h2>列表</h2>
+          <p>无序列表适合并列的要点:</p>
+          <ul>
+            <li>第一个要点,简短有力;</li>
+            <li>第二个要点,可以稍微长一点,长到需要换行也没问题,行距和缩进都已经处理好;</li>
+            <li>第三个要点。</li>
+          </ul>
+          <p>有序列表适合有先后顺序的步骤:</p>
+          <ol>
+            <li>先做这一步;</li>
+            <li>再做这一步;</li>
+            <li>最后检查结果。</li>
+          </ol>
+
+          <h2>引用</h2>
+          <blockquote>
+            <p>好的排版是隐形的:读者注意不到它,只觉得读起来舒服。—— 某位排版设计师</p>
+          </blockquote>
+
+          <h2>代码</h2>
+          <p>行内代码用 <code>&lt;code&gt;</code> 标签,比如 <code>console.log()</code>。整块代码用 <code>&lt;pre&gt;&lt;code&gt;</code>:</p>
+          <pre><code>// 一个简单的示例
+function greet(name) {
+  return '你好,' + name + '!';
+}
+
+console.log(greet('世界'));</code></pre>
+
+          <h2>链接与分隔线</h2>
+          <p>行文中的<a href="../../index.html">链接是这个样子</a>,悬停时有下划线。需要转折时可以用分隔线:</p>
+          <hr>
+          <p>分隔线之后,又是新的开始。以上就是全部排版元素 —— 这篇文章本身就是样式的自测页:改动 CSS 后来这里看一眼,所有元素是否都还正常。</p>
+        </div>
+      </article>
+
+      <div class="post-footer">
+        <a class="back-link" href="../index.html">← 返回博客列表</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- TODO: 替换为你的名字 -->
+      <p>© 2026 你的名字</p>
+      <p>用纯 HTML / CSS / JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <script src="../../js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- TODO: 替换为你的名字和简介 -->
+  <title>你的名字 - 个人主页</title>
+  <meta name="description" content="你的名字的个人主页:开发者,这里有我的项目作品、技术文章和联系方式。">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161617">
+
+  <!-- Open Graph 分享卡片 TODO: 部署后把 og:url 改为线上地址,并在 assets/images/ 放一张 og-image.png(建议 1200x630) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="你的名字 - 个人主页">
+  <meta property="og:description" content="开发者你的名字的个人主页:项目作品、技术文章和联系方式。">
+  <meta property="og:url" content="https://username.github.io/">
+  <meta property="og:image" content="assets/images/og-image.png">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- 主题恢复:在 CSS 加载前设置,防止深色用户刷新时闪白(全站唯一内联脚本) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="container">
+      <!-- TODO: 替换为你的名字 -->
+      <a class="brand" href="#top">你的名字</a>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#about">关于</a>
+        <a href="#skills">技能</a>
+        <a href="#projects">项目</a>
+        <a href="blog/index.html">博客</a>
+        <a href="#contact">联系</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="切换深色/浅色主题">
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false">
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="top">
+      <div class="container">
+        <!-- 头像占位:换真实头像时,把这段 <svg> 替换为
+             <img class="hero-avatar" src="assets/images/avatar.jpg" alt="你的名字的头像"> -->
+        <svg class="hero-avatar" viewBox="0 0 112 112" role="img" aria-label="头像占位图">
+          <circle cx="56" cy="56" r="56" fill="#e8e8ed"/>
+          <text x="56" y="56" text-anchor="middle" dominant-baseline="central" font-size="40" fill="#6e6e73" font-family="-apple-system, PingFang SC, sans-serif">你</text>
+        </svg>
+
+        <!-- TODO: 替换为你的名字和一句话介绍 -->
+        <h1>你的名字</h1>
+        <p class="hero-tagline">开发者 / 在这里写一句你的标语</p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">查看项目</a>
+          <a class="btn btn-secondary" href="#contact">联系我</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 关于 ===== -->
+    <section class="section alt" id="about">
+      <div class="container">
+        <h2 class="section-title reveal">关于我</h2>
+        <div class="about-text reveal">
+          <!-- TODO: 替换为你的自我介绍(2-3 段) -->
+          <p>你好,我是你的名字。这里写第一段自我介绍:你是谁、在做什么、对什么充满热情。比如:我是一名软件开发者,喜欢构建简洁好用的产品,关注用户体验和代码质量。</p>
+          <p>这里写第二段:你的经历或背景。比如:毕业于某大学计算机专业,曾在某公司参与某产品的开发,目前专注于 Web 开发和开源项目。</p>
+          <p>这里写第三段(可选):工作之外的你。比如:不写代码的时候,我喜欢摄影、跑步,偶尔在博客里记录学习心得和生活观察。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 技能 ===== -->
+    <section class="section" id="skills">
+      <div class="container">
+        <h2 class="section-title reveal">技能</h2>
+        <div class="skill-groups reveal">
+          <!-- TODO: 按你的实际技能修改分组和标签 -->
+          <div class="skill-group">
+            <h3>前端</h3>
+            <ul class="skill-pills">
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+              <li>Vue</li>
+              <li>React</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>后端</h3>
+            <ul class="skill-pills">
+              <li>Node.js</li>
+              <li>Python</li>
+              <li>MySQL</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>工具</h3>
+            <ul class="skill-pills">
+              <li>Git</li>
+              <li>Figma</li>
+              <li>Docker</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 项目 ===== -->
+    <section class="section alt" id="projects">
+      <div class="container">
+        <h2 class="section-title reveal">项目作品</h2>
+        <p class="section-subtitle reveal">这里展示我做过的一些项目。</p>
+
+        <div class="project-grid">
+          <!-- 新项目:复制下面一个 article 块,改封面配色类(cover-1/2/3)、名称、描述、标签和链接 -->
+
+          <!-- TODO: 替换为你的真实项目 -->
+          <article class="project-card reveal">
+            <!-- 封面占位:换真实截图时,把这个 div 替换为
+                 <img class="project-cover" src="assets/images/project-1.png" alt="项目一截图"> -->
+            <div class="project-cover cover-1" aria-hidden="true">项目一</div>
+            <div class="project-body">
+              <h3>示例项目一</h3>
+              <p class="project-desc">一句话描述这个项目解决了什么问题、有什么亮点。比如:一个帮助你管理每日待办的极简工具。</p>
+              <ul class="project-tags">
+                <li>Vue</li>
+                <li>Node.js</li>
+              </ul>
+              <div class="project-links">
+                <a href="#" aria-label="示例项目一的在线演示">在线演示</a>
+                <a href="#" aria-label="示例项目一的源码">源码</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-cover cover-2" aria-hidden="true">项目二</div>
+            <div class="project-body">
+              <h3>示例项目二</h3>
+              <p class="project-desc">一句话描述这个项目。比如:一个用 Canvas 实现的在线白板,支持多人协作涂鸦。</p>
+              <ul class="project-tags">
+                <li>Canvas</li>
+                <li>WebSocket</li>
+              </ul>
+              <div class="project-links">
+                <a href="#" aria-label="示例项目二的在线演示">在线演示</a>
+                <a href="#" aria-label="示例项目二的源码">源码</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-cover cover-3" aria-hidden="true">项目三</div>
+            <div class="project-body">
+              <h3>示例项目三</h3>
+              <p class="project-desc">一句话描述这个项目。比如:一个命令行小工具,把 Markdown 笔记批量转换为静态网页。</p>
+              <ul class="project-tags">
+                <li>Python</li>
+                <li>CLI</li>
+              </ul>
+              <div class="project-links">
+                <a href="#" aria-label="示例项目三的在线演示">在线演示</a>
+                <a href="#" aria-label="示例项目三的源码">源码</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 联系 ===== -->
+    <section class="section" id="contact">
+      <div class="container">
+        <h2 class="section-title reveal">联系我</h2>
+        <div class="contact-inner reveal">
+          <p class="section-subtitle">有合作意向或想聊聊技术,欢迎随时联系。</p>
+
+          <!-- TODO: 替换为你的真实邮箱(按钮的 data-email 也要改) -->
+          <div class="contact-email">
+            <span class="email-text">your@email.com</span>
+            <button class="copy-email" type="button" data-email="your@email.com">复制邮箱</button>
+          </div>
+
+          <!-- TODO: 替换为你的真实社交链接,不用的删掉即可 -->
+          <ul class="social-links">
+            <li>
+              <a href="https://github.com/username" target="_blank" rel="noopener noreferrer">
+                GitHub
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.zhihu.com/people/username" target="_blank" rel="noopener noreferrer">
+                知乎
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://juejin.cn/user/username" target="_blank" rel="noopener noreferrer">
+                掘金
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href="https://space.bilibili.com/username" target="_blank" rel="noopener noreferrer">
+                Bilibili
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- TODO: 替换为你的名字 -->
+      <p>© 2026 你的名字</p>
+      <p>用纯 HTML / CSS / JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
