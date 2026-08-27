@@ -44,7 +44,6 @@
   /* Warm paper (light, default) */
   --color-bg: #faf6ee;
   --color-surface: #f2ecdf;
-  --color-card: #fffcf5;
   --color-text: #201d17;
   --color-text-secondary: #6b6255;
   --color-border: #dfd6c5;
@@ -87,7 +86,6 @@
 [data-theme="dark"] {
   --color-bg: #171511;
   --color-surface: #1e1b16;
-  --color-card: #24201a;
   --color-text: #ede7db;
   --color-text-secondary: #a79e8d;
   --color-border: #423c31;
@@ -105,7 +103,6 @@
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
     --color-bg: #171511;
     --color-surface: #1e1b16;
-    --color-card: #24201a;
     --color-text: #ede7db;
     --color-text-secondary: #a79e8d;
     --color-border: #423c31;
@@ -695,7 +692,14 @@ body.nav-open .nav-toggle .icon-close {
 }
 
 .pub-bib {
-  display: inline-block;
+  /* 作为 .pub-links 的 flex 子项:允许收缩,展开时独占一行,
+     否则 pre 的 min-content 宽度会把整页撑出横向滚动 */
+  min-width: 0;
+  max-width: 100%;
+}
+
+.pub-bib[open] {
+  flex-basis: 100%;
 }
 
 .pub-bib summary {
@@ -727,11 +731,6 @@ body.nav-open .nav-toggle .icon-close {
   line-height: 1.5;
 }
 
-/* BibTeX panel needs the full row width below the entry text */
-.pub-item .pub-bib[open] {
-  display: block;
-}
-
 .pub-patent {
   padding: var(--space-3) 0;
   border-top: 1px solid var(--color-border);
@@ -750,7 +749,8 @@ body.nav-open .nav-toggle .icon-close {
 @media (min-width: 768px) {
   .pub-item {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    /* minmax(0,1fr):防止 BibTeX pre 的固有宽度把网格列撑破 */
+    grid-template-columns: 200px minmax(0, 1fr);
     gap: var(--space-4);
     padding: var(--space-3) 0;
   }
@@ -1193,18 +1193,6 @@ body.nav-open .nav-toggle .icon-close {
   margin-top: 10px;
   font-size: 14px;
   color: var(--color-text-secondary);
-}
-
-.post-cover {
-  margin: 0 0 var(--space-4);
-}
-
-.post-cover img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
 }
 
 .post-body hr {

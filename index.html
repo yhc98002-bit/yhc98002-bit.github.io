@@ -24,6 +24,8 @@
   <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
   <script>
     (function () {
+      /* JS 标记先于 CSS 生效,慢网络下 .reveal 内容不会先显后隐再浮现 */
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -50,7 +52,7 @@
       </nav>
 
       <div class="header-actions">
-        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
+        <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false">
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
@@ -177,7 +179,8 @@
                and Chen, Yiqiang},
   booktitle = {Findings of the Association for Computational Linguistics:
                EMNLP 2026},
-  year      = {2026}
+  year      = {2026},
+  note      = {Code: \url{https://github.com/yhc98002-bit/The-Diagnosis-Is-Already-in-the-Notes}}
 }</pre>
                   </details>
                 </div>
@@ -238,7 +241,8 @@
   number    = {9},
   pages     = {9445--9453},
   year      = {2025},
-  doi       = {10.1609/aaai.v39i9.33023}
+  doi       = {10.1609/aaai.v39i9.33023},
+  url       = {https://ojs.aaai.org/index.php/AAAI/article/view/33023}
 }</pre>
                   </details>
                 </div>

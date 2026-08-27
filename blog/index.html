@@ -7,6 +7,13 @@
   <meta name="description" content="Notes on multimodal models, post-training, and evaluation — by Haocun Ye.">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6ee">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171511">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog — Haocun Ye">
+  <meta property="og:description" content="Notes on multimodal models, post-training, and evaluation — by Haocun Ye.">
+  <meta property="og:url" content="https://yhc98002-bit.github.io/blog/">
+  <meta property="og:image" content="https://yhc98002-bit.github.io/assets/images/og-image.png">
+
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../favicon.ico" sizes="48x48">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
@@ -15,6 +22,8 @@
   <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
   <script>
     (function () {
+      /* JS 标记先于 CSS 生效,慢网络下 .reveal 内容不会先显后隐再浮现 */
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -41,7 +50,7 @@
       </nav>
 
       <div class="header-actions">
-        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
+        <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false">
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>

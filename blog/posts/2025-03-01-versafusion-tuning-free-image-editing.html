@@ -11,6 +11,7 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="VersaFusion: Fine-Grained Image Editing Without Fine-Tuning">
   <meta property="og:description" content="A dual-branch framework on top of a pre-trained Stable Diffusion model that edits one thing while leaving everything else alone.">
+  <meta property="og:url" content="https://yhc98002-bit.github.io/blog/posts/2025-03-01-versafusion-tuning-free-image-editing.html">
   <meta property="og:image" content="https://yhc98002-bit.github.io/assets/images/project-versafusion.jpg">
 
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
@@ -21,6 +22,8 @@
   <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
   <script>
     (function () {
+      /* JS 标记先于 CSS 生效,慢网络下 .reveal 内容不会先显后隐再浮现 */
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -47,7 +50,7 @@
       </nav>
 
       <div class="header-actions">
-        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
+        <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false">
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
@@ -96,14 +99,14 @@
           <p><strong>1. Inversion.</strong> The source image (and a reference image, if one is provided) is mapped back to a noise latent with an improved DDIM-style inversion we call <em>proximal negative-prompt inversion</em> (PNI). Null-text inversion is accurate but slow, because it optimizes an embedding at every timestep; plain negative-prompt inversion is fast but leaves artifacts. PNI keeps the fast, training-free form and adds a proximal regularization that pulls the reconstruction back toward the source, which removes most of the artifacts. In practice inversion drops from roughly two minutes to a few seconds.</p>
 
           <figure>
-            <img src="../../assets/figures/pni-inversion-comparison.png" alt="Comparison of inversion methods on the same image: input, null-text inversion, negative-prompt inversion, and PNI" loading="lazy">
+            <img src="../../assets/figures/pni-inversion-comparison.jpg" width="1280" height="302" alt="Comparison of inversion methods on the same image: input, null-text inversion, negative-prompt inversion, and PNI" loading="lazy">
             <figcaption>Left to right: input · null-text inversion · negative-prompt inversion · PNI (ours).</figcaption>
           </figure>
 
           <p><strong>2. Dual-branch generation.</strong> A <em>guidance branch</em> denoises the inverted latent back into the source image. While it does so, it stores the self-attention keys and values and the intermediate features of every timestep in a memory bank. A <em>generation branch</em> runs in parallel and performs the actual edit. Two kinds of cross-branch interaction keep the edit faithful: <strong>KV replacement</strong> injects the source&rsquo;s keys/values into the generation branch&rsquo;s self-attention so appearance and background are preserved, and <strong>classifier guidance</strong> built on feature correspondence turns &ldquo;move this here&rdquo; into a gradient on the latent. Masks restrict where the edit is allowed to happen.</p>
 
           <figure>
-            <img src="../../assets/figures/versafusion-architecture.png" alt="VersaFusion dual-branch architecture: guidance branch with memory bank feeding KV replacement and classifier guidance into the generation branch" loading="lazy">
+            <img src="../../assets/figures/versafusion-architecture.png" width="1440" height="637" alt="VersaFusion dual-branch architecture: guidance branch with memory bank feeding KV replacement and classifier guidance into the generation branch" loading="lazy">
             <figcaption>The dual-branch design: the guidance branch reconstructs the source and fills a memory bank; the generation branch edits under KV replacement and feature-correspondence guidance.</figcaption>
           </figure>
 
@@ -116,7 +119,7 @@
           <p>The application that surprised me most came from agriculture. On the MADA platform we used VersaFusion to simulate how a crop will look at later growth stages from a single photograph: a seedling grows leaves and fruit, a green field turns golden, a drone appears over a plot — driven by a text prompt or a reference image, while the plant&rsquo;s identity, the leaf veins and the greenhouse behind it stay put. Nothing had to be retrained for a new crop, which is exactly the property a tuning-free method buys you.</p>
 
           <figure>
-            <img src="../../assets/figures/mada-crop-growth-editing.jpg" alt="Crop-growth simulation examples: a tomato seedling grown to a fruiting plant and a green field turned ripe, with identity and scene preserved" loading="lazy">
+            <img src="../../assets/figures/mada-crop-growth-editing.jpg" width="1600" height="460" alt="Crop-growth simulation examples: a tomato seedling grown to a fruiting plant and a green field turned ripe, with identity and scene preserved" loading="lazy">
             <figcaption>Crop-growth simulation on the MADA platform: later growth stages from a single photo, identity and scene preserved.</figcaption>
           </figure>
 

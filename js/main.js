@@ -25,12 +25,17 @@
   var themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) {
     var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
-    themeToggle.addEventListener('click', function () {
-      var current = document.documentElement.dataset.theme ||
+    var currentTheme = function () {
+      return document.documentElement.dataset.theme ||
         (systemDark.matches ? 'dark' : 'light');
-      var next = current === 'dark' ? 'light' : 'dark';
+    };
+    /* aria-pressed 让屏幕阅读器知道当前是否处于深色 */
+    themeToggle.setAttribute('aria-pressed', String(currentTheme() === 'dark'));
+    themeToggle.addEventListener('click', function () {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = next;
       syncThemeColor(next);
+      themeToggle.setAttribute('aria-pressed', String(next === 'dark'));
       try {
         localStorage.setItem('theme', next);
       } catch (e) {
@@ -106,12 +111,13 @@
     /* rootMargin 收窄到视口中部:分区经过屏幕中间时才算「当前」 */
     var spyObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        var link = linkById[entry.target.id];
-        if (!link || !entry.isIntersecting) return;
+        if (!entry.isIntersecting) return;
+        /* 先清空再设置:回到无对应导航项的分区(如顶部 hero)时不残留高亮 */
         navLinks.forEach(function (l) {
           l.classList.remove('active');
         });
-        link.classList.add('active');
+        var link = linkById[entry.target.id];
+        if (link) link.classList.add('active');
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
     sections.forEach(function (section) {

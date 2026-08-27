@@ -11,6 +11,7 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="The Diagnosis Is Already in the Notes">
   <meta property="og:description" content="Why deleting the diagnosis field from a clinical record does not make it neutral context — and CRAFT, an audit protocol that measures how much still leaks.">
+  <meta property="og:url" content="https://yhc98002-bit.github.io/blog/posts/2026-08-28-the-diagnosis-is-already-in-the-notes.html">
   <meta property="og:image" content="https://yhc98002-bit.github.io/assets/images/project-craft.png">
 
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
@@ -21,6 +22,8 @@
   <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
   <script>
     (function () {
+      /* JS 标记先于 CSS 生效,慢网络下 .reveal 内容不会先显后隐再浮现 */
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -47,7 +50,7 @@
       </nav>
 
       <div class="header-actions">
-        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
+        <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false">
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
@@ -107,7 +110,7 @@
           <p>We packaged the analysis as <strong>CRAFT — Channel-wise Redaction And Floor Test</strong>. It takes a dataset and a label, renders each record into a ladder of increasingly aggressive redaction levels and into channel-isolated views, and reports how recoverable the label is from each view using a deliberately weak probe (a frozen encoder plus a linear head, three seeds). Using a weak probe is the point: if <em>that</em> can recover the label, the information is explicit, not something a clever model had to infer. The channel rankings reproduce when the encoder is swapped for Qwen3.5-9B.</p>
 
           <figure>
-            <img src="../../assets/figures/craft-overview.png" alt="Overview of the CRAFT audit protocol: a clinical record is rendered into redaction levels and channel-isolated views, each probed for label recoverability" loading="lazy">
+            <img src="../../assets/figures/craft-overview.png" width="1440" height="621" alt="Overview of the CRAFT audit protocol: a clinical record is rendered into redaction levels and channel-isolated views, each probed for label recoverability" loading="lazy">
             <figcaption>CRAFT renders each record into redacted and channel-isolated views, then reports each view&rsquo;s label recoverability — its shortcut floor. (Figure 1 of the paper.)</figcaption>
           </figure>
 
