@@ -6,7 +6,7 @@
   document.documentElement.classList.add('js');
 
   /* ===== 主题切换(浅色 ↔ 深色,localStorage 持久化) ===== */
-  var THEME_COLORS = { light: '#ffffff', dark: '#161617' };
+  var THEME_COLORS = { light: '#faf6ee', dark: '#171511' };
   var themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
 
   /* 手动主题下,theme-color meta 只跟系统走会导致浏览器 UI(Safari 标签栏等)
@@ -46,13 +46,13 @@
     var closeNav = function (returnFocus) {
       document.body.classList.remove('nav-open');
       navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.setAttribute('aria-label', '打开导航菜单');
+      navToggle.setAttribute('aria-label', 'Open navigation menu');
       if (returnFocus) navToggle.focus();
     };
     navToggle.addEventListener('click', function () {
       var open = document.body.classList.toggle('nav-open');
       navToggle.setAttribute('aria-expanded', String(open));
-      navToggle.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+      navToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
       /* 菜单面板在 DOM 中位于按钮之前,展开后把焦点移进菜单,
          否则键盘用户按 Tab 会直接跳进正文 */
       if (open) {
@@ -129,10 +129,10 @@
       var email = copyBtn.dataset.email;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email).then(function () {
-          copyBtn.textContent = '已复制 ✓';
+          copyBtn.textContent = 'Copied ✓';
           copyBtn.classList.add('copied');
-          /* role="status" 的 live region,让屏幕阅读器播报复制结果 */
-          if (copyStatus) copyStatus.textContent = '邮箱已复制到剪贴板';
+          /* role="status" live region so screen readers announce the result */
+          if (copyStatus) copyStatus.textContent = 'Email address copied to clipboard';
           clearTimeout(resetTimer);
           resetTimer = setTimeout(function () {
             copyBtn.textContent = defaultLabel;

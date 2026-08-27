@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VersaFusion: Fine-Grained Image Editing Without Fine-Tuning — Haocun Ye</title>
+  <meta name="description" content="A dual-branch framework on top of a pre-trained Stable Diffusion model that edits one thing while leaving everything else alone — and how it ended up simulating crop growth.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6ee">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171511">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="VersaFusion: Fine-Grained Image Editing Without Fine-Tuning">
+  <meta property="og:description" content="A dual-branch framework on top of a pre-trained Stable Diffusion model that edits one thing while leaving everything else alone.">
+  <meta property="og:image" content="https://yhc98002-bit.github.io/assets/images/project-versafusion.jpg">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="preload" href="../../assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../../index.html">Haocun Ye · <span class="brand-zh" lang="zh-Hans">叶浩存</span></a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+        <a href="../../index.html#news">News</a>
+        <a href="../../index.html#publications">Publications</a>
+        <a href="../../index.html#projects">Projects</a>
+        <a href="../../index.html#about">About</a>
+        <a class="active" href="../index.html" aria-current="true">Blog</a>
+        <a href="../../index.html#contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-nav">
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="post">
+    <div class="container narrow">
+      <a class="back-link" href="../index.html">&larr; All posts</a>
+
+      <article>
+        <header class="post-header">
+          <h1>VersaFusion: Fine-Grained Image Editing Without Fine-Tuning</h1>
+          <p class="post-meta"><time datetime="2025-03-01">March 1, 2025</time></p>
+          <ul class="post-tags">
+            <li>Diffusion models</li>
+            <li>Image editing</li>
+            <li>AAAI 2025</li>
+          </ul>
+        </header>
+
+        <div class="post-body">
+          <p>Text-to-image diffusion models are remarkable at <em>generating</em> images and surprisingly awkward at <em>editing</em> them. Ask for a small change — move the object, extend the canvas, make the seedling grow — and the model happily re-imagines the background, the texture and the identity of the subject along with it. Drag-style editors built on GANs or diffusion models fix some of this, but the strongest of them need per-image fine-tuning that takes a minute before you can touch anything.</p>
+
+          <p><a href="https://ojs.aaai.org/index.php/AAAI/article/view/33023" target="_blank" rel="noopener noreferrer">VersaFusion</a> (AAAI 2025) is our attempt at fine-grained, pixel-level editing that needs <strong>no fine-tuning and no new modules</strong>. Everything is built from the correspondences that already exist inside a pre-trained Stable Diffusion model.</p>
+
+          <h2>Two branches and a memory bank</h2>
+
+          <p>The pipeline has three stages.</p>
+
+          <p><strong>1. Inversion.</strong> The source image (and a reference image, if one is provided) is mapped back to a noise latent with an improved DDIM-style inversion we call <em>proximal negative-prompt inversion</em> (PNI). Null-text inversion is accurate but slow, because it optimizes an embedding at every timestep; plain negative-prompt inversion is fast but leaves artifacts. PNI keeps the fast, training-free form and adds a proximal regularization that pulls the reconstruction back toward the source, which removes most of the artifacts. In practice inversion drops from roughly two minutes to a few seconds.</p>
+
+          <figure>
+            <img src="../../assets/figures/pni-inversion-comparison.png" alt="Comparison of inversion methods on the same image: input, null-text inversion, negative-prompt inversion, and PNI" loading="lazy">
+            <figcaption>Left to right: input · null-text inversion · negative-prompt inversion · PNI (ours).</figcaption>
+          </figure>
+
+          <p><strong>2. Dual-branch generation.</strong> A <em>guidance branch</em> denoises the inverted latent back into the source image. While it does so, it stores the self-attention keys and values and the intermediate features of every timestep in a memory bank. A <em>generation branch</em> runs in parallel and performs the actual edit. Two kinds of cross-branch interaction keep the edit faithful: <strong>KV replacement</strong> injects the source&rsquo;s keys/values into the generation branch&rsquo;s self-attention so appearance and background are preserved, and <strong>classifier guidance</strong> built on feature correspondence turns &ldquo;move this here&rdquo; into a gradient on the latent. Masks restrict where the edit is allowed to happen.</p>
+
+          <figure>
+            <img src="../../assets/figures/versafusion-architecture.png" alt="VersaFusion dual-branch architecture: guidance branch with memory bank feeding KV replacement and classifier guidance into the generation branch" loading="lazy">
+            <figcaption>The dual-branch design: the guidance branch reconstructs the source and fills a memory bank; the generation branch edits under KV replacement and feature-correspondence guidance.</figcaption>
+          </figure>
+
+          <p><strong>3. Prompts from images, not just text.</strong> An image-prompt encoder inspired by IP-Adapter lets a reference image drive the edit — a croissant&rsquo;s texture, a face&rsquo;s identity — trained jointly with and without the image so that either can be dropped at inference.</p>
+
+          <p>Because none of this touches the diffusion model&rsquo;s weights, the same machinery supports attribute editing, canvas extension, detail-preserving resizing, style transfer, face synthesis and click-and-drag object relocation. On the standard drag-editing comparison the framework prepares an image in 5.23&nbsp;s (DragDiffusion needs 63.56&nbsp;s for its per-image LoRA), with feature-alignment error 11.45 versus 16.99 and an FID of 32.98, better than DragonDiffusion.</p>
+
+          <h2>From croissants to crops</h2>
+
+          <p>The application that surprised me most came from agriculture. On the MADA platform we used VersaFusion to simulate how a crop will look at later growth stages from a single photograph: a seedling grows leaves and fruit, a green field turns golden, a drone appears over a plot — driven by a text prompt or a reference image, while the plant&rsquo;s identity, the leaf veins and the greenhouse behind it stay put. Nothing had to be retrained for a new crop, which is exactly the property a tuning-free method buys you.</p>
+
+          <figure>
+            <img src="../../assets/figures/mada-crop-growth-editing.jpg" alt="Crop-growth simulation examples: a tomato seedling grown to a fruiting plant and a green field turned ripe, with identity and scene preserved" loading="lazy">
+            <figcaption>Crop-growth simulation on the MADA platform: later growth stages from a single photo, identity and scene preserved.</figcaption>
+          </figure>
+
+          <p>If you want the details, the paper is <a href="https://doi.org/10.1609/aaai.v39i9.33023" target="_blank" rel="noopener noreferrer">here</a>.</p>
+        </div>
+      </article>
+
+      <div class="post-footer">
+        <a class="back-link" href="../index.html">&larr; All posts</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© 2026 Haocun Ye · <span lang="zh-Hans">叶浩存</span></span>
+      <span>Built with plain HTML / CSS / JS · Typeset in Instrument Serif</span>
+    </div>
+  </footer>
+
+  <script src="../../js/main.js" defer></script>
+</body>
+</html>

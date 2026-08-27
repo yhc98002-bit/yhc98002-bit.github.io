@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Diagnosis Is Already in the Notes — Haocun Ye</title>
+  <meta name="description" content="Why deleting the diagnosis field from a clinical record does not make it neutral context — and a small audit protocol (CRAFT) that measures how much still leaks.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6ee">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171511">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Diagnosis Is Already in the Notes">
+  <meta property="og:description" content="Why deleting the diagnosis field from a clinical record does not make it neutral context — and CRAFT, an audit protocol that measures how much still leaks.">
+  <meta property="og:image" content="https://yhc98002-bit.github.io/assets/images/project-craft.png">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="preload" href="../../assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../../index.html">Haocun Ye · <span class="brand-zh" lang="zh-Hans">叶浩存</span></a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+        <a href="../../index.html#news">News</a>
+        <a href="../../index.html#publications">Publications</a>
+        <a href="../../index.html#projects">Projects</a>
+        <a href="../../index.html#about">About</a>
+        <a class="active" href="../index.html" aria-current="true">Blog</a>
+        <a href="../../index.html#contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-nav">
+          <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="post">
+    <div class="container narrow">
+      <a class="back-link" href="../index.html">&larr; All posts</a>
+
+      <article>
+        <header class="post-header">
+          <h1>The Diagnosis Is Already in the Notes</h1>
+          <p class="post-meta"><time datetime="2026-08-28">August 28, 2026</time></p>
+          <ul class="post-tags">
+            <li>Clinical NLP</li>
+            <li>Benchmarks</li>
+            <li>Shortcut learning</li>
+            <li>EMNLP 2026</li>
+          </ul>
+        </header>
+
+        <div class="post-body">
+          <p>Most medical multimodal benchmarks are assembled with a reasonable-looking recipe. Take a diagnostic image — a fundus photograph, an OCT scan — pair it with the clinical record from the same visit, delete the field that states the diagnosis, and treat what remains as <em>auxiliary context</em> for the image. A model that does better with the text than without it is then credited with cross-modal reasoning: it combined what it saw with what it read.</p>
+
+          <p>Our EMNLP 2026 paper, <a href="https://github.com/yhc98002-bit/The-Diagnosis-Is-Already-in-the-Notes" target="_blank" rel="noopener noreferrer"><em>The Diagnosis Is Already in the Notes</em></a>, makes a simple point about that recipe: the &ldquo;auxiliary&rdquo; text is not neutral. On 5,904 ophthalmic visits spanning eight disease cohorts, a frozen text encoder with a single linear layer on top recovers the disease label from the <strong>diagnosis-redacted</strong> record at <strong>0.944 macro-AUROC</strong>. The unredacted record gives 0.998. The most aggressive dictionary scrub we tried — removing every disease mention we could enumerate — closes less than one further percentage point.</p>
+
+          <h2>Why the signal survives redaction</h2>
+
+          <p>A clinical record is not a pre-diagnostic observation sheet. It is written <em>during</em> the diagnostic process, by a clinician who already has a hypothesis, and every part of it carries fingerprints of that hypothesis. We split the record into channels and measured each one on its own:</p>
+
+          <ul>
+            <li><strong>Narrative text</strong> (chief complaint, history, findings) alone reaches 0.978. Clinicians describe what they are looking for.</li>
+            <li><strong>Physician decisions</strong> — which exams were ordered, which treatments were prescribed — predict the disease independently of any description.</li>
+            <li><strong>Field presence</strong> is the surprising one. Take a view that erases <em>every value</em> and exposes only which fields were populated. It still reaches <strong>0.854</strong>. A patient suspected of retinal vein occlusion gets a fluorescein angiography order; a dry-eye patient does not. The schema of the record is itself a diagnostic trace.</li>
+          </ul>
+
+          <p>Word-level scrubbing cannot touch the last two channels, which is why &ldquo;we removed the diagnosis field&rdquo; is not the same as &ldquo;the text is diagnostically neutral&rdquo;.</p>
+
+          <h2>CRAFT: measure the floor before you claim the gain</h2>
+
+          <p>We packaged the analysis as <strong>CRAFT — Channel-wise Redaction And Floor Test</strong>. It takes a dataset and a label, renders each record into a ladder of increasingly aggressive redaction levels and into channel-isolated views, and reports how recoverable the label is from each view using a deliberately weak probe (a frozen encoder plus a linear head, three seeds). Using a weak probe is the point: if <em>that</em> can recover the label, the information is explicit, not something a clever model had to infer. The channel rankings reproduce when the encoder is swapped for Qwen3.5-9B.</p>
+
+          <figure>
+            <img src="../../assets/figures/craft-overview.png" alt="Overview of the CRAFT audit protocol: a clinical record is rendered into redaction levels and channel-isolated views, each probed for label recoverability" loading="lazy">
+            <figcaption>CRAFT renders each record into redacted and channel-isolated views, then reports each view&rsquo;s label recoverability — its shortcut floor. (Figure 1 of the paper.)</figcaption>
+          </figure>
+
+          <p>The output is a set of <em>shortcut floors</em>: how well a text-only model does on each view before any image is involved. Our recommendation is procedural rather than clever — <strong>report those floors alongside any clinical-text or image&ndash;text fusion result</strong>. A fusion model that beats the image-only baseline by five points has not demonstrated cross-modal reasoning if the text branch alone sits at 0.94.</p>
+
+          <h2>What this does and does not say</h2>
+
+          <p>The absolute numbers belong to one health system, one electronic-record system and one family of documentation templates; what transfers is the protocol and the failure mode it exposes. The labels are retrospective cohort assignments, not independently adjudicated diagnoses, so we talk about <em>label recoverability</em>, not diagnostic correctness. And the paper is an auditing instrument for the text branch, not evidence about image&ndash;text fusion itself — it tells you what a fusion gain must be measured against.</p>
+
+          <p>We are turning CRAFT into a leakage-audit module for the data-governance platform in our lab, so that a dataset gets audited before it is released rather than after someone has trained on it. The code, redaction-level specifications, de-identified example records and per-seed results are on <a href="https://github.com/yhc98002-bit/The-Diagnosis-Is-Already-in-the-Notes" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+        </div>
+      </article>
+
+      <div class="post-footer">
+        <a class="back-link" href="../index.html">&larr; All posts</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© 2026 Haocun Ye · <span lang="zh-Hans">叶浩存</span></span>
+      <span>Built with plain HTML / CSS / JS · Typeset in Instrument Serif</span>
+    </div>
+  </footer>
+
+  <script src="../../js/main.js" defer></script>
+</body>
+</html>

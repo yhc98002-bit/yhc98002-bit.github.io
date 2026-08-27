@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <!-- ============================================================
-     文章模板:写新文章时,复制本文件到同目录(blog/posts/),
-     重命名为 YYYY-MM-DD-英文短名.html,然后修改:
-     1. <title> 和 meta description
-     2. <h1> 标题和 <time> 日期(datetime 属性和显示文字两处)
-     3. <div class="post-body"> 里的正文
-     4. 最后去 blog/index.html 的列表顶部加一张卡片
-     注意:必须放在 blog/posts/ 目录,否则页内的相对路径会失效。
+     Post template. To write a new post:
+     1. Copy this file WITHIN blog/posts/ and rename it to
+        YYYY-MM-DD-short-slug.html
+     2. Update <title>, meta description, the og: tags, the <h1>,
+        the <time> (both the datetime attribute and the visible text)
+        and the tags list
+     3. Write the body inside <div class="post-body">
+        (available elements: p, h2/h3, ul/ol, blockquote, code,
+        pre>code, figure>img+figcaption, hr — styles are ready)
+     4. Add an entry card at the top of the list in blog/index.html
+     Note: this file must stay in blog/posts/ — the relative paths
+     (../../) break anywhere else.
      ============================================================ -->
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- TODO: 替换为文章标题和你的名字 -->
-  <title>文章标题 - 你的名字</title>
-  <meta name="description" content="一句话文章摘要。">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161617">
-  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <title>Post title — Haocun Ye</title>
+  <meta name="description" content="One-sentence summary of the post.">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6ee">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171511">
 
-  <!-- 主题恢复:在 CSS 加载前设置,防止深色用户刷新时闪白 -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Post title">
+  <meta property="og:description" content="One-sentence summary of the post.">
+  <!-- og:image must be an ABSOLUTE URL, e.g.
+       https://yhc98002-bit.github.io/assets/images/your-cover.png -->
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="preload" href="../../assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Theme restore: runs before CSS so dark-mode users never see a light flash -->
   <script>
     (function () {
       try {
@@ -32,23 +46,23 @@
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">跳到主要内容</a>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="container">
-      <!-- TODO: 替换为你的名字 -->
-      <a class="brand" href="../../index.html">你的名字</a>
+      <a class="brand" href="../../index.html">Haocun Ye · <span class="brand-zh" lang="zh-Hans">叶浩存</span></a>
 
-      <nav class="site-nav" id="site-nav" aria-label="主导航">
-        <a href="../../index.html#about">关于</a>
-        <a href="../../index.html#skills">技能</a>
-        <a href="../../index.html#projects">项目</a>
-        <a class="active" href="../index.html" aria-current="true">博客</a>
-        <a href="../../index.html#contact">联系</a>
+      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+        <a href="../../index.html#news">News</a>
+        <a href="../../index.html#publications">Publications</a>
+        <a href="../../index.html#projects">Projects</a>
+        <a href="../../index.html#about">About</a>
+        <a class="active" href="../index.html" aria-current="true">Blog</a>
+        <a href="../../index.html#contact">Contact</a>
       </nav>
 
       <div class="header-actions">
-        <button class="theme-toggle" type="button" aria-label="切换深色/浅色主题">
+        <button class="theme-toggle" type="button" aria-label="Toggle dark / light theme">
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
@@ -58,7 +72,7 @@
           </svg>
         </button>
 
-        <button class="nav-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="site-nav">
+        <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="site-nav">
           <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18"/>
           </svg>
@@ -72,33 +86,36 @@
 
   <main id="main" class="post">
     <div class="container narrow">
-      <a class="back-link" href="../index.html">← 返回博客列表</a>
+      <a class="back-link" href="../index.html">&larr; All posts</a>
 
       <article>
         <header class="post-header">
-          <!-- TODO: 替换为文章标题和日期 -->
-          <h1>文章标题</h1>
-          <p class="post-meta"><time datetime="2026-01-01">2026 年 1 月 1 日</time></p>
+          <!-- TODO: title, date (two places) and tags -->
+          <h1>Post title</h1>
+          <p class="post-meta"><time datetime="2026-01-01">January 1, 2026</time></p>
+          <ul class="post-tags">
+            <li>Tag one</li>
+            <li>Tag two</li>
+          </ul>
         </header>
 
         <div class="post-body">
-          <!-- TODO: 在这里写正文,可用的排版元素见 2026-08-20-typography.html -->
-          <p>正文第一段。</p>
-          <p>正文第二段。</p>
+          <!-- TODO: write the post here -->
+          <p>First paragraph.</p>
+          <p>Second paragraph.</p>
         </div>
       </article>
 
       <div class="post-footer">
-        <a class="back-link" href="../index.html">← 返回博客列表</a>
+        <a class="back-link" href="../index.html">&larr; All posts</a>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <!-- TODO: 替换为你的名字 -->
-      <p>© 2026 你的名字</p>
-      <p>用纯 HTML / CSS / JavaScript 构建</p>
+      <span>© 2026 Haocun Ye · <span lang="zh-Hans">叶浩存</span></span>
+      <span>Built with plain HTML / CSS / JS · Typeset in Instrument Serif</span>
     </div>
   </footer>
 
