@@ -2,8 +2,7 @@
 
 纯 HTML / CSS / JavaScript 构建的个人主页 —— 零框架、零构建工具、零外部依赖。
 
-<!-- TODO: 部署后把线上地址填在这里 -->
-在线地址:https://username.github.io/
+在线地址:https://yhc98002-bit.github.io/
 
 ## 目录结构
 
@@ -57,7 +56,7 @@
 全局搜索 `TODO` 可以找到全部待替换处,主要包括:
 
 - [ ] 所有页面的「你的名字」(导航、Hero、页脚、`<title>`)
-- [ ] `index.html` 的 meta description、Open Graph 标签(`og:url` 和 `og:image` 都改为线上**完整绝对地址**——og:image 用相对路径时社交分享卡片不显示图片)
+- [ ] `index.html` 的 meta description(`og:url` 和 `og:image` 已填好线上绝对地址;og:image 必须保持绝对 URL,否则社交分享卡片不显示图片)
 - [ ] Hero 区头像:把占位 `<svg>` 换成真实头像 `<img>`(图片放 `assets/images/`)
 - [ ] 关于我的三段介绍、技能标签
 - [ ] 三个示例项目 → 真实项目
