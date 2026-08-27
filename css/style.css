@@ -960,6 +960,13 @@ body.nav-open .nav-toggle .icon-close {
   color: var(--color-accent);
 }
 
+.contact-alt {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
 .social-links {
   display: flex;
   flex-wrap: wrap;

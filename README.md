@@ -2,7 +2,7 @@
 
 Personal academic homepage of **Haocun Ye (叶浩存)** — plain HTML / CSS / JS, no frameworks, no build tools, no external requests.
 
-Live at: https://yhc98002-bit.github.io/
+Live at: https://haocunye.site/
 
 ## Structure
 
