@@ -16,7 +16,6 @@ Live at: https://haocunye.site/
 │   ├── fonts/          # self-hosted Instrument Serif (SIL OFL, see OFL.txt)
 │   ├── images/         # portrait, project covers, og-image
 │   ├── figures/        # paper figures used in blog posts
-│   └── Haocun_Ye_CV_en.pdf
 └── blog/
     ├── index.html      # post list
     └── posts/          # one HTML file per post + template.html
@@ -61,4 +60,4 @@ GitHub Pages republishes automatically within a minute or two.
 - **Fonts**: Instrument Serif is self-hosted in `assets/fonts/` (latin subset, ~15 KB per file) under the SIL Open Font License (`assets/fonts/OFL.txt`). No external font or CDN requests anywhere.
 - **Relative paths**: the whole site avoids root-absolute paths so it works from `file://`, localhost and GitHub Pages alike. The two exceptions by design: `og:image` (crawlers require absolute URLs) and the 404 page's home link.
 - **`.nojekyll`** tells GitHub Pages to serve files as-is — keep it.
-- **Privacy**: the Chinese résumé (contains a phone number) and raw material files are gitignored and must never be committed; only `Haocun_Ye_CV_en.pdf` is public.
+- **Privacy**: résumé PDFs and raw material files are gitignored and must never be committed. Site copy never mentions undergraduate education, agriculture/MADA deployments, or unpublished-paper experiment numbers.

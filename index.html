@@ -129,7 +129,6 @@
             <blockquote class="hero-question">&ldquo;When a benchmark score goes up, did the model actually acquire the ability the benchmark claims to measure?&rdquo;</blockquote>
             <div class="hero-links">
               <a href="mailto:despair_eyes@qq.com">Email</a>
-              <a href="assets/Haocun_Ye_CV_en.pdf">CV</a>
               <a href="https://scholar.google.com/citations?user=CaPPENgAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a>
               <a href="https://github.com/yhc98002-bit" target="_blank" rel="noopener noreferrer">GitHub</a>
               <a href="https://openreview.net/profile?id=~Haocun_Ye1" target="_blank" rel="noopener noreferrer">OpenReview</a>
@@ -193,7 +192,7 @@
                 <h3 class="pub-title">Learning Without Looking: Image-Dependent Gains from Image-Free RLVR</h3>
                 <p class="pub-authors"><strong>Haocun Ye</strong> et&nbsp;al.</p>
                 <span class="pub-venue">In preparation</span>
-                <p class="pub-note">Does RLVR teach vision-language models to see, or to better use what they already saw? A train&nbsp;&times;&nbsp;test visual-visibility study, plus FlipTrack — a counterfactual benchmark of paired images whose answers must flip, so image-blind strategies fail by construction. Code and benchmark will be released with the paper.</p>
+                <p class="pub-note">When RLVR lifts a vision-language model&rsquo;s visual-reasoning scores, is the model learning to see — or just learning to take the test? Standard benchmarks can&rsquo;t tell the two apart. A controlled train&nbsp;&times;&nbsp;test visual-visibility design separates the sources of the gain, and FlipTrack — paired images differing in one key visual fact, scored so the answer must flip — makes text-prior-only strategies score zero by construction. The recurring pattern: scores can rise while reliance on the image quietly degrades. Code and benchmark will be released with the paper.</p>
               </div>
             </article>
           </li>
@@ -264,13 +263,13 @@
           <li>
             <article class="pub-item reveal">
               <div class="pub-thumb">
-                <img src="assets/images/project-versafusion.jpg" width="1280" height="720" alt="VersaFusion editing examples and crop-growth simulation" loading="lazy">
+                <img src="assets/images/versafusion-teaser.jpg" width="1600" height="524" alt="VersaFusion editing examples across seven tasks, from canvas extension and drag editing to style transfer and face synthesis" loading="lazy">
               </div>
               <div class="pub-body">
                 <h3 class="pub-title">VersaFusion: A Versatile Diffusion-Based Framework for Fine-Grained Image Editing and Enhancement</h3>
                 <p class="pub-authors"><strong>Haocun Ye</strong>, Xinlong Jiang, Chenlong Gao, Bingyu Wang, Wuliang Huang, Yiqiang Chen</p>
                 <span class="pub-venue">AAAI 2025</span>
-                <p class="pub-note">A tuning-free dual-branch diffusion framework — proximal negative-prompt inversion, KV memory injection and classifier guidance — for fine-grained editing that leaves everything else alone. AAAI 39(9), 9445&ndash;9453.</p>
+                <p class="pub-note">A tuning-free dual-branch framework for fine-grained editing: a guidance branch reconstructs the source and stores its self-attention K/V, a generation branch edits under feature-correspondence guidance and masks, with proximal negative-prompt inversion in place of null-text optimization. One set of weights covers outpainting, resizing, style transfer, drag and face editing. AAAI 39(9), 9445&ndash;9453.</p>
                 <div class="pub-links">
                   <a href="https://ojs.aaai.org/index.php/AAAI/article/view/33023" target="_blank" rel="noopener noreferrer">[Paper]</a>
                   <a href="https://doi.org/10.1609/aaai.v39i9.33023" target="_blank" rel="noopener noreferrer">[DOI]</a>
@@ -317,7 +316,7 @@
             <div class="project-content">
               <span class="project-index">01 / 04</span>
               <h3>Learning Without Looking · FlipTrack</h3>
-              <p class="project-desc">Does RLVR teach vision-language models to see, or to better use what they already saw? A causal train&nbsp;&times;&nbsp;test visual-visibility study on Qwen2.5-VL, plus FlipTrack — a counterfactual benchmark of paired images whose answers must flip, so any image-blind strategy fails one member of every pair by construction.</p>
+              <p class="project-desc">Is RLVR teaching the model to see, or to take the test? Training Qwen2.5-VL with GRPO under four visual conditions — real image, caption, text-only, gray placeholder — and testing each with and without images separates where the gains come from. FlipTrack, a counterfactual benchmark of paired images whose answers must flip, scores text-prior-only strategies at zero by construction. The pattern: benchmark scores can rise while the model&rsquo;s reliance on the image quietly degrades.</p>
               <ul class="project-tags">
                 <li>RLVR</li>
                 <li>GRPO</li>
@@ -334,7 +333,7 @@
             <div class="project-content">
               <span class="project-index">02 / 04</span>
               <h3>CRAFT — The Diagnosis Is Already in the Notes</h3>
-              <p class="project-desc">A channel-wise audit protocol for clinical-text benchmarks: diagnosis-redacted records still recover the diagnosis at 0.944 macro-AUROC, so fusion gains must be reported alongside the text branch&rsquo;s shortcut floors. Now being engineered into a leakage-audit module for our lab&rsquo;s data-governance platform.</p>
+              <p class="project-desc">Does image&ndash;text fusion actually use the image? On 5,904 real visits across Aier Eye Hospital sites, a deliberately weak probe — frozen encoder, one linear head — still recovers the diagnosis from diagnosis-redacted records at 0.944 macro-AUROC; even a view keeping only which fields were filled in reaches 0.854, because which exams were ordered is itself a clue. CRAFT packages this as a portable audit: report each channel&rsquo;s shortcut floor before claiming a fusion gain. I led the trustworthy-evaluation work; the code is open-source and is becoming a pre-release dataset check.</p>
               <ul class="project-tags">
                 <li>Clinical NLP</li>
                 <li>Shortcut learning</li>
@@ -354,7 +353,7 @@
             <div class="project-content">
               <span class="project-index">03 / 04</span>
               <h3>Ophthalmology LLM Training Pipeline</h3>
-              <p class="project-desc">From 11 open medical QA datasets and 212 OCR&rsquo;d textbooks to 9.0M ophthalmic SFT samples, then multi-node full-parameter SFT of Qwen2.5-14B and Qwen2-VL-7B with DeepSpeed ZeRO-3 — report-generation CIDEr rose from 0.0004 to 0.557. Industry-sponsored; method granted an invention patent.</p>
+              <p class="project-desc">General-purpose LLMs answer ophthalmic questions vaguely, and public ophthalmic QA corpora are scarce — so this industry project built the corpus first: 610k items filtered from 11 open medical QA sets, 208k QA pairs generated from 212 OCR&rsquo;d textbooks, paraphrase-augmented to 9.0M instructions. Then full-parameter SFT of Qwen2.5-14B on 2&nbsp;&times;&nbsp;8 A800s (DeepSpeed ZeRO-3, bf16, global batch 1024, RDMA / NCCL). A four-dimension LLM-judge score — medical accuracy, completeness, clinical usefulness, professionalism — rose from 2.6 to 4.1; the method was granted an invention patent. I was a core member and took the project through its final wrap-up.</p>
               <ul class="project-tags">
                 <li>SFT</li>
                 <li>DeepSpeed ZeRO-3</li>
@@ -366,12 +365,12 @@
 
           <article class="project-row reveal">
             <div class="project-media">
-              <img src="assets/images/project-versafusion.jpg" width="1280" height="720" alt="VersaFusion and MADA crop-growth simulation cover" loading="lazy">
+              <img src="assets/images/versafusion-teaser.jpg" width="1600" height="524" alt="VersaFusion editing examples from the AAAI 2025 paper: seven editing tasks with source inputs and edited outputs" loading="lazy">
             </div>
             <div class="project-content">
               <span class="project-index">04 / 04</span>
-              <h3>VersaFusion &amp; MADA Crop-Growth Simulation</h3>
-              <p class="project-desc">Tuning-free dual-branch diffusion editing (AAAI 2025) — 5.23&nbsp;s preparation versus 63.56&nbsp;s for DragDiffusion — deployed on the MADA platform to simulate how a crop will look at later growth stages from a single photo, while keeping the plant&rsquo;s identity and the scene unchanged.</p>
+              <h3>VersaFusion: Tuning-Free Fine-Grained Image Editing</h3>
+              <p class="project-desc">Text-to-image models generate well but edit poorly: text instructions miss their target, and drag-style methods either inherit GAN backbones or fine-tune per image. VersaFusion&rsquo;s dual branches edit with no tuning at all — 5.23&nbsp;s preparation versus 63.56&nbsp;s for DragDiffusion, with the best point-alignment error and FID among general-purpose methods — and one set of weights covers outpainting, resizing, style transfer, drag and face editing. (AAAI 2025)</p>
               <ul class="project-tags">
                 <li>Diffusion models</li>
                 <li>Image editing</li>
@@ -406,27 +405,31 @@
             <dl class="about-facts">
               <div>
                 <dt>Education</dt>
-                <dd>PhD student, Institute of Computing Technology, Chinese Academy of Sciences (2023 – present)</dd>
+                <dd>PhD student (integrated master&rsquo;s&ndash;PhD track), Institute of Computing Technology, Chinese Academy of Sciences · 2023 – 2028 (expected)</dd>
               </div>
               <div>
-                <dt>Advisor</dt>
-                <dd>Prof. Yiqiang Chen</dd>
+                <dt>Advisor &amp; lab</dt>
+                <dd>Prof. Yiqiang Chen · Beijing Key Laboratory of Mobile Computing and Pervasive Devices</dd>
               </div>
               <div>
                 <dt>Award</dt>
                 <dd>ICT Outstanding Master&rsquo;s Student Award, 2025</dd>
               </div>
               <div>
+                <dt>Languages &amp; tools</dt>
+                <dd>Python · C++ · Linux / Git · PyTorch · DeepSpeed · Transformers / Diffusers</dd>
+              </div>
+              <div>
                 <dt>Training &amp; post-training</dt>
-                <dd>PyTorch · DeepSpeed ZeRO-3 multi-node SFT · GRPO / RLVR (EasyR1) · diffusion inversion &amp; guidance · Qwen2/2.5-VL · InternVL · Gemma</dd>
+                <dd>Full-parameter / LoRA SFT · multi-node multi-GPU training (ZeRO-3, NCCL) · multimodal RLVR (GRPO / EasyR1) · diffusion inversion &amp; editing</dd>
               </div>
               <div>
                 <dt>Data &amp; evaluation</dt>
-                <dd>LLM-driven data pipelines · OCR-to-QA corpus construction · counterfactual benchmark design · shortcut &amp; leakage audits · LLM-as-judge</dd>
+                <dd>LLM-driven data filtering / cleaning / synthesis · benchmark construction &amp; trustworthy evaluation (counterfactual, shortcut &amp; leakage audits) · LLM-as-judge</dd>
               </div>
               <div>
-                <dt>Languages &amp; tools</dt>
-                <dd>Python · C++ · Linux / Shell · Git · multi-GPU / multi-node training on A800 clusters (RDMA / NCCL)</dd>
+                <dt>Models</dt>
+                <dd>Qwen3.5 / Qwen2.5 series (incl. VL) · InternVL3 · Gemma-3 · Stable Diffusion</dd>
               </div>
             </dl>
           </div>
@@ -475,12 +478,6 @@
               <a href="https://orcid.org/0009-0007-2242-3054" target="_blank" rel="noopener noreferrer">
                 ORCID
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
-              </a>
-            </li>
-            <li>
-              <a href="assets/Haocun_Ye_CV_en.pdf">
-                CV (PDF)
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
               </a>
             </li>
           </ul>

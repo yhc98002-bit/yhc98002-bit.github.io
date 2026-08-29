@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VersaFusion: Fine-Grained Image Editing Without Fine-Tuning — Haocun Ye</title>
-  <meta name="description" content="A dual-branch framework on top of a pre-trained Stable Diffusion model that edits one thing while leaving everything else alone — and how it ended up simulating crop growth.">
+  <meta name="description" content="A dual-branch framework on top of a pre-trained Stable Diffusion model that edits one thing while leaving everything else alone — no per-image fine-tuning, no new modules.">
   <link rel="canonical" href="https://haocunye.site/blog/posts/2025-03-01-versafusion-tuning-free-image-editing.html">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf6ee">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171511">
@@ -13,7 +13,7 @@
   <meta property="og:title" content="VersaFusion: Fine-Grained Image Editing Without Fine-Tuning">
   <meta property="og:description" content="A dual-branch framework on top of a pre-trained Stable Diffusion model that edits one thing while leaving everything else alone.">
   <meta property="og:url" content="https://haocunye.site/blog/posts/2025-03-01-versafusion-tuning-free-image-editing.html">
-  <meta property="og:image" content="https://haocunye.site/assets/images/project-versafusion.jpg">
+  <meta property="og:image" content="https://haocunye.site/assets/images/versafusion-teaser.jpg">
 
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../../favicon.ico" sizes="48x48">
@@ -89,7 +89,7 @@
         </header>
 
         <div class="post-body">
-          <p>Text-to-image diffusion models are remarkable at <em>generating</em> images and surprisingly awkward at <em>editing</em> them. Ask for a small change — move the object, extend the canvas, make the seedling grow — and the model happily re-imagines the background, the texture and the identity of the subject along with it. Drag-style editors built on GANs or diffusion models fix some of this, but the strongest of them need per-image fine-tuning that takes a minute before you can touch anything.</p>
+          <p>Text-to-image diffusion models are remarkable at <em>generating</em> images and surprisingly awkward at <em>editing</em> them. Ask for a small change — move the object, extend the canvas, restyle the subject — and the model happily re-imagines the background, the texture and the identity of the subject along with it. Drag-style editors built on GANs or diffusion models fix some of this, but the strongest of them need per-image fine-tuning that takes a minute before you can touch anything.</p>
 
           <p><a href="https://ojs.aaai.org/index.php/AAAI/article/view/33023" target="_blank" rel="noopener noreferrer">VersaFusion</a> (AAAI 2025) is our attempt at fine-grained, pixel-level editing that needs <strong>no fine-tuning and no new modules</strong>. Everything is built from the correspondences that already exist inside a pre-trained Stable Diffusion model.</p>
 
@@ -113,15 +113,13 @@
 
           <p><strong>3. Prompts from images, not just text.</strong> An image-prompt encoder inspired by IP-Adapter lets a reference image drive the edit — a croissant&rsquo;s texture, a face&rsquo;s identity — trained jointly with and without the image so that either can be dropped at inference.</p>
 
-          <p>Because none of this touches the diffusion model&rsquo;s weights, the same machinery supports attribute editing, canvas extension, detail-preserving resizing, style transfer, face synthesis and click-and-drag object relocation. On the standard drag-editing comparison the framework prepares an image in 5.23&nbsp;s (DragDiffusion needs 63.56&nbsp;s for its per-image LoRA), with feature-alignment error 11.45 versus 16.99 and an FID of 32.98, better than DragonDiffusion.</p>
+          <h2>One set of weights, many tasks</h2>
 
-          <h2>From croissants to crops</h2>
-
-          <p>The application that surprised me most came from agriculture. On the MADA platform we used VersaFusion to simulate how a crop will look at later growth stages from a single photograph: a seedling grows leaves and fruit, a green field turns golden, a drone appears over a plot — driven by a text prompt or a reference image, while the plant&rsquo;s identity, the leaf veins and the greenhouse behind it stay put. Nothing had to be retrained for a new crop, which is exactly the property a tuning-free method buys you.</p>
+          <p>Because none of this touches the diffusion model&rsquo;s weights, switching tasks means changing the inputs, not retraining: the same machinery supports attribute editing, canvas extension, detail-preserving resizing, style transfer, face synthesis and click-and-drag object relocation. On the standard drag-editing comparison the framework prepares an image in 5.23&nbsp;s (DragDiffusion needs 63.56&nbsp;s for its per-image LoRA), with feature-alignment error 11.45 versus 16.99 and an FID of 32.98, better than DragonDiffusion.</p>
 
           <figure>
-            <img src="../../assets/figures/mada-crop-growth-editing.jpg" width="1600" height="460" alt="Crop-growth simulation examples: a tomato seedling grown to a fruiting plant and a green field turned ripe, with identity and scene preserved" loading="lazy">
-            <figcaption>Crop-growth simulation on the MADA platform: later growth stages from a single photo, identity and scene preserved.</figcaption>
+            <img src="../../assets/images/versafusion-teaser.jpg" width="1600" height="524" alt="Seven editing tasks handled by one framework: source inputs on top, edited outputs below" loading="lazy">
+            <figcaption>Seven editing tasks, one framework — source inputs (top) and edited outputs (bottom). (Figure 1 of the paper.)</figcaption>
           </figure>
 
           <p>If you want the details, the paper is <a href="https://doi.org/10.1609/aaai.v39i9.33023" target="_blank" rel="noopener noreferrer">here</a>.</p>
